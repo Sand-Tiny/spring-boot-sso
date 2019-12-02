@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration >
+
+    <contextName>sso-server</contextName>
+
+	<substitutionProperty name="logbase" value="./logs/info.log" />
+
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+              <level>info</level>
+        </filter>
+        <encoder>
+            <!-- <pattern>%d{yyyy:MM:dd HH:mm:ss.SSS} %contextName [%thread] %-5level %logger{80} - %msg%n</pattern> -->
+            <pattern>[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%level] [%contextName] [%F:%L] %msg%n</pattern>
+        </encoder>
+    </appender>
+    
+    <appender name="file"  class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${logbase}</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${logbase}-%d{yyyy-MM-dd}.%i.txt</fileNamePattern>
+            <maxFileSize>50MB</maxFileSize>    
+           <maxHistory>400</maxHistory>
+           <totalSizeCap>20GB</totalSizeCap>
+        </rollingPolicy>
+        <encoder>
+            <pattern>[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%level] [%contextName] [%logger{80}:%L] %msg%n</pattern>
+        </encoder>
+    </appender>
+    
+
+    <root>
+        <appender-ref ref="console" level="info"/>
+        <appender-ref ref="file" level="info"/>
+    </root>
+
+    <logger name="org.springframework" level="error" />
+    <!-- <logger name="org.hibernate" level="error" />
+    <logger name="org.apache.ibatis" level="error" />
+    <logger name="com.netflix" level="info"/>
+    <logger name="org.apache.http" level="info"/ -->>
+
+</configuration>
